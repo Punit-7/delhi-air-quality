@@ -1,0 +1,12 @@
+# Everything in requirements.txt, plus what you need while developing.
+-r requirements.txt
+
+# Notebooks and analysis
+ipykernel>=6.29
+matplotlib>=3.8
+statsmodels>=0.14
+
+# Code quality
+pytest>=8.0
+ruff>=0.6
+pre-commit>=3.7

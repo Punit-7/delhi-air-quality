@@ -1,0 +1,20 @@
+# Secrets and the local Python environment
+.env
+.venv/
+
+# Data never goes into Git
+data/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# dbt build output
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+dbt/.user.yml
