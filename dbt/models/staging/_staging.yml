@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: stg_stations
+    description: One row per monitoring station.
+    columns:
+      - name: location_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_air_quality
+    description: One row per sensor per hour.
+    columns:
+      - name: location_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_stations')
+                field: location_id
+      - name: parameter
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["pm25", "pm10", "no2"]
+      - name: value
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 0
+                max_value: 2000
+
+  - name: stg_weather
+    description: One row per hour of weather in central Delhi.
+    columns:
+      - name: measured_at
+        data_tests:
+          - unique
+          - not_null
+      - name: wind_direction_deg
+        data_tests:
+          - value_between:
+              arguments:
+                min_value: 0
+                max_value: 360
+      - name: relative_humidity_pct
+        data_tests:
+          - value_between:
+              arguments:
+                min_value: 0
+                max_value: 100
+
+  - name: stg_fires
+    description: One row per satellite fire detection.
+    columns:
+      - name: detected_at
+        data_tests:
+          - not_null
+      - name: confidence
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["n", "h"]

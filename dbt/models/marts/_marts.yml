@@ -1,0 +1,66 @@
+version: 2
+
+models:
+  - name: dim_station
+    description: One row per monitoring station, with the period it has data for.
+    columns:
+      - name: location_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fct_air_quality_hourly
+    description: One row per station per hour, pollutants as columns.
+    columns:
+      - name: location_id
+        data_tests:
+          - not_null
+      - name: measured_at
+        data_tests:
+          - not_null
+
+  - name: fct_fires_daily
+    description: Fire detections per day over Punjab and Haryana.
+    columns:
+      - name: fire_date
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fct_city_hourly
+    description: >
+      One row per hour for the city: average PM2.5 beside weather, the previous
+      day's fire count and a Diwali-night flag. Grafana and the analysis read this.
+    columns:
+      - name: measured_at
+        data_tests:
+          - unique
+          - not_null
+      - name: pm25_city_avg
+        data_tests:
+          - value_between:
+              arguments:
+                min_value: 0
+                max_value: 1000
+      - name: stations_reporting
+        data_tests:
+          - value_between:
+              arguments:
+                min_value: 5
+                max_value: 500
+
+  - name: fct_station_daily
+    description: One row per station per day, with the PM2.5 sub-index and its category.
+    columns:
+      - name: pm25_sub_index
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 0
+                max_value: 500
+      - name: aqi_category
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["Good", "Satisfactory", "Moderate", "Poor", "Very Poor", "Severe"]
