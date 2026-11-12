@@ -1,0 +1,9 @@
+# Keep the Airflow image build small and fast, and keep secrets out of it.
+.env
+.git
+.venv
+data
+notebooks
+**/__pycache__
+dbt/target
+dbt/logs
