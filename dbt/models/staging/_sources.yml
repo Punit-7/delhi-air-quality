@@ -1,0 +1,12 @@
+version: 2
+
+# The raw tables that Python loads. Models refer to them with
+# {{ source('raw', 'table_name') }} so dbt knows where the data comes from.
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: stations
+      - name: air_quality_hourly
+      - name: weather_hourly
+      - name: fire_detections

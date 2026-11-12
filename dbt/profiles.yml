@@ -1,0 +1,14 @@
+# How dbt connects. No secrets here: every value is read from the environment,
+# so this file is safe to commit.
+delhi_air_quality:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('POSTGRES_HOST', 'localhost') }}"
+      port: "{{ env_var('POSTGRES_PORT', '5433') | as_number }}"
+      user: "{{ env_var('POSTGRES_USER') }}"
+      password: "{{ env_var('POSTGRES_PASSWORD') }}"
+      dbname: "{{ env_var('POSTGRES_DB', 'airquality') }}"
+      schema: staging
+      threads: 4

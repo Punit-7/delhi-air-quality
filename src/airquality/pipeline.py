@@ -72,8 +72,10 @@ def run_fires(days: int, engine_name: str) -> None:
 
 def run_dbt(arguments: list[str]) -> int:
     """Run dbt with the settings from .env, from any folder."""
+    # Use the dbt that sits next to this Python, so the venv's dbt is always the one run.
+    dbt_program = Path(sys.executable).parent / ("dbt.exe" if os.name == "nt" else "dbt")
     command = [
-        "dbt",
+        str(dbt_program),
         *arguments,
         "--project-dir",
         str(config.DBT_DIR),

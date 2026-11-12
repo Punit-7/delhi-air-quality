@@ -1,0 +1,22 @@
+name: delhi_air_quality
+version: "1.0.0"
+profile: delhi_air_quality
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+vars:
+  local_timezone: "Asia/Kolkata"
+  diwali_date: "2026-11-08"
+  # Fewer stations than this and an hour gets no city-wide average.
+  min_stations_for_city_average: 5
+
+models:
+  delhi_air_quality:
+    staging:
+      +schema: staging
+      +materialized: view   # cheap, always current
+    marts:
+      +schema: marts
+      +materialized: table  # fast for the dashboard to read
